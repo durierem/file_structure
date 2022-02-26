@@ -10,6 +10,23 @@ in a directory on the file system.
 Useful for creating test environment for programs that manipulate
 files but can be used as is for something else entirely.
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'file_structure'
+```
+
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install file_structure
+
+
 ## Usage
 
 ```ruby
@@ -48,6 +65,8 @@ fs.unmount # deletes all files in /tmp/mydir
 
 JSON.dump(fs.structure) # (bonus) easily serializable :D
 ```
+
+For further API documentation, head over to [https://www.rubydoc.info/github/durierem/file_structure](https://www.rubydoc.info/github/durierem/file_structure/)
 
 ## License
 
