@@ -14,7 +14,7 @@ RuboCop::RakeTask.new
 
 desc 'Generate documentation with Yard'
 task :doc do
-  sh 'yard doc --no-private'
+  sh 'yard doc'
 end
 
 task default: %i[test rubocop doc]
