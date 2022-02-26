@@ -1,14 +1,21 @@
 # file_structure
 
+[![Gem Version](https://badge.fury.io/rb/file_structure.svg)](https://badge.fury.io/rb/file_structure)
 [![Test](https://github.com/durierem/file_structure/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/test.yml)
 [![Lint](https://github.com/durierem/file_structure/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/lint.yml)
 
-Define a file structure with a `Hash` with support for files, file content,
-directories and symlinks across the structure. Mount and unmount the structure
-in a directory on the file system.
 
-Useful for creating test environment for programs that manipulate
-files but can be used as is for something else entirely.
+Define a file structure with a `Hash` and mount it in a directory on the file system.
+
+## About
+
+This gem was extracted from another project tests for which files structures
+containing files, directories and symlinks had to be easily reacreated on the
+fly.
+
+Though it *is* useful in the context of testing, `file_structure` does not make
+assumptions about what it is being used for and deliberately does not handle
+things such as temporary file structures or mock file structures.
 
 ## Installation
 
@@ -29,9 +36,12 @@ Or install it yourself as:
 
 ## Usage
 
+Visit the [API documentation](https://www.rubydoc.info/github/durierem/file_structure/)
+for more details.
+
 ```ruby
 # Example creating the following file hierarchy:
-# /tmp/mydir
+# /home/john/mydir
 # ├── dir1
 # │  ├── dir2
 # │  │  └── file2
@@ -58,15 +68,22 @@ fs = FileStructure.new([
   }
 ])
 
-fs.mount('/tmp/mydir') # also creates the /tmp/mydir directory if it doesn't exist
+fs.mount('/home/john/mydir') # also creates the directory if it doesn't exist
 fs.mounted? # => true
-fs.mountpoint # => "/tmp/mydir"
-fs.unmount # deletes all files in /tmp/mydir
+fs.mountpoint # => "/home/john/mydir"
+fs.path_for(:dir1, :file3) # => /home/john/mydir/dir1/file3
+fs.unmount # deletes all files in /home/john/mydir
 
-JSON.dump(fs.structure) # (bonus) easily serializable :D
+# Bonus: can be mounted in a temporary directory
+Dir.mktmpdir do |dirname|
+  fs.mount(dir)
+  # do stuff
+  fs.unmount
+end
+
+# Bonus: easily serializable structure (who knows what could be done with this :O)
+JSON.dump(fs.structure)
 ```
-
-For further API documentation, head over to [https://www.rubydoc.info/github/durierem/file_structure](https://www.rubydoc.info/github/durierem/file_structure/)
 
 ## License
 

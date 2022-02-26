@@ -70,7 +70,8 @@ class FileStructure
   #
   # @param args [Symbol, String Array<Symbol, String>] the recursive names to
   #   the desired file or directory
-  # @return [String] the full path to the specified file/directory
+  # @return [String] the full path to the specified file/directory if found
+  # @return [nil] if no file/directory has been found
   # @raise [AssertionError] if the file structure is not mounted
   def path_for(*args)
     Contract.assert(mounted?, 'file structure is not mounted')
