@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ['mail@remidurieu.dev']
 
   spec.summary = <<-TEXT
-    Quickly create and delete file structures on the file system.
+    Manage file structures (ie: files and directories) on the file system.
   TEXT
   spec.description = <<-TEXT
     Describe a file structure with a Ruby Hash. Supports files, file content,
@@ -23,8 +23,6 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/durierem/file_structure'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
-
-  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
