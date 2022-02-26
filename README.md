@@ -1,9 +1,11 @@
-# FileStructure
+# file_structure
 
-Describe a file structure with a Ruby Hash. Supports files, file content,
-directories and symlinks across the structure.
+[![Test](https://github.com/durierem/file_structure/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/test.yml)
+[![Lint](https://github.com/durierem/file_structure/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/lint.yml)
 
-Mount and unmount the desired structured in a directory on the file system.
+Define a file structure with a `Hash` with support for files, file content,
+directories and symlinks across the structure. Mount and unmount the structure
+in a directory on the file system.
 
 Useful for creating test environment for programs that manipulate
 files but can be used as is for something else entirely.
@@ -38,25 +40,13 @@ fs = FileStructure.new([
     ]
   }
 ])
+
 fs.mount('/tmp/mydir') # also creates the /tmp/mydir directory if it doesn't exist
 fs.mounted? # => true
 fs.mountpoint # => "/tmp/mydir"
 fs.unmount # deletes all files in /tmp/mydir
+
 JSON.dump(fs.structure) # (bonus) easily serializable :D
-```
-
-## Next features?
-
-Add a nice DSL for initilazing `FileStructure`s
-
-```ruby
-FileStructure.new do
-  file 'file1', content: 'abc' # ref defaults to file name
-  dir 'foo' do
-    file 'file2', content: '123'
-    symlink 'iamfile1', to: 'file1'
-  end
-end
 ```
 
 ## License
