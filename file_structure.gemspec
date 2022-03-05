@@ -8,7 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors = ['Rémi Durieu']
   spec.email = ['mail@remidurieu.dev']
 
-  spec.summary = 'Manage file structures on the file system.'
+  spec.summary = <<-TEXT
+    Describe a file hierarchy and mount it in a directory on the file system.
+  TEXT
   spec.description = spec.summary
   spec.homepage = 'https://github.com/durierem/file_structure'
   spec.license = 'MIT'

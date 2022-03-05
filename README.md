@@ -5,11 +5,11 @@
 [![Lint](https://github.com/durierem/file_structure/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/lint.yml)
 
 
-Define a file structure with a `Hash` and mount it in a directory on the file system.
+Describe a file hierarchy and mount it in a directory on the file system.
 
 ## About
 
-This gem was extracted from another project tests for which files structures
+This gem was extracted from another project tests for which structures
 containing files, directories and symlinks had to be easily reacreated on the
 fly.
 
@@ -49,24 +49,17 @@ for more details.
 # │  └── link_to_file2 -> /tmp/mydir/dir1/dir2/file2
 # └── file1
 
-fs = FileStructure.new([
-  { type: :file, name: 'file1' },
-  {
-    type: :directory,
-    name: 'dir1',
-    children: [
-      {
-        type: :directory,
-        name: 'dir2',
-        children: [
-          { type: :file, name: 'file2', ref: 'ref_file2', content: 'abc' }
-        ]
-      },
-      { type: :file, name: 'file3' },
-      { type: :symlink, name: 'link_to_file2', to: 'ref_file2' }
-    ]
-  }
-])
+# Use the DSL to easily describe the structure
+fs = FileStructure.build do
+  file 'file1'
+  directory 'dir1' do
+    directory 'dir2' do
+      file 'file2'
+    end
+    file 'file3'
+    symlink 'link_to_file2', to: 'file2'
+  end
+end
 
 fs.mount('/home/john/mydir') # also creates the directory if it doesn't exist
 fs.mounted? # => true
@@ -74,14 +67,14 @@ fs.mountpoint # => "/home/john/mydir"
 fs.path_for(:dir1, :file3) # => /home/john/mydir/dir1/file3
 fs.unmount # deletes all files in /home/john/mydir
 
-# Bonus: can be mounted in a temporary directory
+# Bonus tip 1: can be mounted in a temporary directory
 Dir.mktmpdir do |dirname|
   fs.mount(dir)
   # do stuff
   fs.unmount
 end
 
-# Bonus: easily serializable structure (who knows what could be done with this :O)
+# Bonus tip 2: easily serializable structure (who knows what could be done with this :O)
 JSON.dump(fs.structure)
 ```
 
