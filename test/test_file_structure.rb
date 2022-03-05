@@ -10,9 +10,7 @@ class TestFileStructure < Minitest::Spec
     @fs = FileStructure.new([{ type: :file, name: 'file1' }])
   end
 
-  after do
-    FileUtils.remove_entry(@tmpdir)
-  end
+  after { FileUtils.remove_entry(@tmpdir) }
 
   describe '#initialize' do
     it 'does not have a mountpoint yet' do
@@ -22,6 +20,15 @@ class TestFileStructure < Minitest::Spec
   end
 
   describe '#mount' do
+    before do
+      @fs = FileStructure.build do
+        file 'file_1'
+        directory 'dir_1' do
+          symlink 'symlink_1', to: 'file_1'
+        end
+      end
+    end
+
     describe 'when the file structure is already mounted' do
       before do
         @fs.mount(@tmpdir)
@@ -38,9 +45,25 @@ class TestFileStructure < Minitest::Spec
       end
     end
 
+    describe 'when the file structure has failed to be mounted' do
+      before { FileUtils.touch(File.join(@tmpdir, 'dir_1')) }
+
+      it 'raises the original error' do
+        _ { @fs.mount(@tmpdir) }.must_raise(Errno::EEXIST)
+      end
+
+      it 'clears the mountpoint of any created files' do
+        @fs.mount(@tmpdir)
+      rescue StandardError
+        _(Dir.empty?(@tmpdir)).must_equal true
+      end
+    end
+
     it 'creates the desired files' do
       @fs.mount(@tmpdir)
-      _(File.join(@tmpdir, @fs.structure.first[:name])).path_must_exist
+      _(File.join(@tmpdir, 'file_1')).path_must_exist
+      _(File.join(@tmpdir, 'dir_1')).path_must_exist
+      _(File.join(@tmpdir, 'dir_1/symlink_1')).path_must_exist
     end
 
     it 'sets the mountpoint' do
