@@ -16,6 +16,7 @@ end
 group :test do
   gem 'minitest', '~> 5.0'
   gem 'minitest-reporters', '~> 1.5'
+  gem 'simplecov', '~> 0.21.2', require: false
 end
 
 group :development, :test do
