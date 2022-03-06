@@ -74,44 +74,27 @@ class FileStructure
     !!@mountpoint
   end
 
-  # Get the full path for a file in the mounted file structure.
+  # Get the aboslute path for a file in the mounted file structure.
   #
   # @example
-  #   path_for(:foo, :bar, :file)
+  #   path_for('foo/bar/file')
   #   # => "/path/to/mountpoint/foo/bar/file"
   #
-  # @param args [Symbol, String Array<Symbol, String>] the recursive names to
-  #   the desired file or directory
-  # @return [String] the full path to the specified file/directory if found
-  # @return [nil] if no file/directory has been found
+  # @param args [String] the relative path of the target in the file structure
+  # @return [String] the full path to the target
+  # @return [nil] if no target has been found
   # @raise [AssertionError] if the file structure is not mounted
-  def path_for(*args)
+  def path_for(target)
     assert(mounted?, 'file structure is not mounted')
 
-    finder = [*args].flatten.map(&:to_sym)
-    build_path(finder, @structure)
+    absolute_path = File.join(@mountpoint, target)
+    File.exist?(absolute_path) ? absolute_path : nil
   end
 
   private
 
   def valid_file_structure?(structure)
     FileStructure::Validator.new(structure).valid?
-  end
-
-  # @param finder [Array] such as :foo, :bar
-  # @param structure [Array] file structure definition
-  # @param path [String] starting path (recursive accumulator)
-  def build_path(finder, structure, path = @mountpoint)
-    return path if finder.empty? || structure.nil?
-
-    base = structure.find { |item| item[:name].to_s == finder.first.to_s }
-    return nil if base.nil?
-
-    build_path(
-      finder[1..],
-      base[:children],
-      File.join(path, base[:name])
-    )
   end
 
   # @param dirname [String] root directory
