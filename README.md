@@ -44,9 +44,9 @@ for more details.
 # /home/john/mydir
 # ├── dir1
 # │  ├── dir2
-# │  │  └── file2
+# │  │  └── file2 (containing "Hello, World!")
 # │  ├── file3
-# │  └── link_to_file2 -> /tmp/mydir/dir1/dir2/file2
+# │  └── link_to_file2 -> /home/john/mydir/dir1/dir2/file2
 # └── file1
 
 # Use the DSL to easily describe the structure
@@ -54,29 +54,38 @@ fs = FileStructure.build do
   file 'file1'
   directory 'dir1' do
     directory 'dir2' do
-      file 'file2'
+      file 'file2', content: 'Hello, World!'
     end
     file 'file3'
     symlink 'link_to_file2', to: 'file2'
   end
 end
 
-fs.mount('/home/john/mydir') # also creates the directory if it doesn't exist
-fs.mounted? # => true
-fs.mountpoint # => "/home/john/mydir"
-fs.path_for(:dir1, :file3) # => /home/john/mydir/dir1/file3
-fs.unmount # deletes all files in /home/john/mydir
+# Operations on file structures
+fs.mount('/home/john/mydir')    # also creates the directory if it doesn't exist
+fs.mounted?                     # => true
+fs.mountpoint                   # => "/home/john/mydir"
+fs.path_for('dir1/file3')       # => "/home/john/mydir/dir1/file3"
+fs.unmount                      # deletes all files in /home/john/mydir
+```
 
-# Bonus tip 1: can be mounted in a temporary directory
+## Bonus
+
+```ruby
+# Can be mounted in a temporary directory
 Dir.mktmpdir do |dirname|
-  fs.mount(dir)
+  fs.mount(dirname)
   # do stuff
   fs.unmount
 end
 
-# Bonus tip 2: easily serializable structure (who knows what could be done with this :O)
+# Easily serializable structure (who knows what could be done with this :O)
 JSON.dump(fs.structure)
 ```
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/durierem/file_structure/blob/main/CHANGELOG.md).
 
 ## License
 

@@ -3,8 +3,6 @@
 class FileStructure
   # Provide a DSL to easily create file structure definitions.
   #
-  #
-  #
   # @example
   #   structure = FileStructure::DSL.eval do
   #     directory 'dir_a' do

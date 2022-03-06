@@ -82,7 +82,7 @@ class FileStructure
   #   path_for('foo/bar/file')
   #   # => "/path/to/mountpoint/foo/bar/file"
   #
-  # @param args [String] the relative path of the target in the file structure
+  # @param target [String] the relative path of the target in the file structure
   # @return [String] the full path to the target
   # @return [nil] if no target has been found
   # @raise [AssertionError] if the file structure is not mounted
