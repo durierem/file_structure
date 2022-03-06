@@ -10,7 +10,7 @@ Describe a file hierarchy and mount it in a directory on the file system.
 ## About
 
 This gem was extracted from another project tests for which structures
-containing files, directories and symlinks had to be easily reacreated on the
+containing files, directories and symlinks had to be easily recreated on the
 fly.
 
 Though it *is* useful in the context of testing, `file_structure` does not make
