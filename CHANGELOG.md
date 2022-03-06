@@ -1,0 +1,26 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+### Changed
+- `FileStructure#path_for` is more efficient and the API is simpler, expecting
+the argument to be a relative path instead of a list of recursive names.
+
+## [0.2.0] - 2022-03-05
+### Added
+- New DSL to more easily describe file structure (`FileStructure::DSL`).
+- New method `FileStructure.build` to use the DSL.
+### Fixed
+- Incorrect error handling preventing cleaning of residual files when `FileStructure#mount` fails.
+
+## [0.1.0] - 2022-02-26
+### Added
+- Initial working set of functionalities.
+
+[Unreleased]: https://github.com/durierem/file_structure/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/durierem/file_structure/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/durierem/file_structure/releases/tag/v0.1.0
