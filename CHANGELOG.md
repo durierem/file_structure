@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - `FileStructure#path_for` is more efficient and the API is simpler, expecting
 the argument to be a relative path instead of a list of recursive names.
+- `FileStructure#mount` does not handle cleaning "residuals" anymore and
+requires the target directory to be empty upon mounting.
 
 ## [0.2.0] - 2022-03-05
 ### Added

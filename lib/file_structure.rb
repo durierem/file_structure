@@ -30,7 +30,7 @@ class FileStructure
     new(FileStructure::DSL.eval(&block))
   end
 
-  # @param structure [Array<Hash>] a valid file structure definition.
+  # @param structure [Array<Hash>] a valid file structure definition (see {DSL})
   # @raise [AssertionError] if the file structure is invalid
   def initialize(structure)
     assert(valid_file_structure?(structure), 'invalid file structure')
@@ -42,20 +42,19 @@ class FileStructure
   # Effectively creates files and directories in the specified directory.
   #
   # @param dirname [String] the target directory
-  # @raise [AssertionError] if the FileStructure is already mounted
+  # @raise [AssertionError] if the file structure is already mounted
+  # @raise [AssertionError] if the target directory is not empty
   # @return void
   # @see unmount
   def mount(dirname)
     assert(!mounted?, 'file structure is already mounted')
+    if Dir.exist?(dirname)
+      assert(Dir.empty?(dirname), 'target directory is not empty')
+    end
 
     mountpoint = File.absolute_path(dirname)
     FileUtils.mkdir_p(mountpoint) unless Dir.exist?(mountpoint)
-    begin
-      create_file_structure(mountpoint, @structure)
-    rescue StandardError => e
-      FileUtils.rm_r(Dir.glob("#{mountpoint}/*")) # clear residuals
-      raise e
-    end
+    create_file_structure(mountpoint, @structure)
     @mountpoint = mountpoint
   end
 
@@ -70,6 +69,9 @@ class FileStructure
     @mountpoint = nil
   end
 
+  # Check if the file structure is currently mounted.
+  #
+  # @return [Boolean]
   def mounted?
     !!@mountpoint
   end

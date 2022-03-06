@@ -30,9 +30,7 @@ class TestFileStructure < Minitest::Spec
     end
 
     describe 'when the file structure is already mounted' do
-      before do
-        @fs.mount(@tmpdir)
-      end
+      before { @fs.mount(@tmpdir) }
 
       it 'raises an AssertionError' do
         _ { @fs.mount(@tmpdir) }.must_raise(AssertionError)
@@ -45,17 +43,16 @@ class TestFileStructure < Minitest::Spec
       end
     end
 
-    describe 'when the file structure has failed to be mounted' do
-      before { FileUtils.touch(File.join(@tmpdir, 'dir_1')) }
+    describe 'when the target directory is not empty' do
+      before { FileUtils.touch(File.join(@tmpdir, 'existing_file')) }
 
-      it 'raises the original error' do
-        _ { @fs.mount(@tmpdir) }.must_raise(Errno::EEXIST)
+      it 'raises an AssertionError' do
+        _ { @fs.mount(@tmpdir) }.must_raise(AssertionError)
       end
 
-      it 'clears the mountpoint of any created files' do
-        @fs.mount(@tmpdir)
-      rescue StandardError
-        _(Dir.empty?(@tmpdir)).must_equal true
+      it 'does not mount' do
+        _ { @fs.mount(@tmpdir) }
+        _(@fs.mounted?).must_equal false
       end
     end
 
