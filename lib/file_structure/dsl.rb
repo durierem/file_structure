@@ -16,7 +16,7 @@ class FileStructure
   #   end
   #   # => [{ type: :directory, name: 'dir_a', children: [ ... ] }]
   class DSL
-    # @return [Hash] the resulting file structure definition
+    # @return [Array] the resulting file structure definition
     attr_reader :structure
 
     # Return the file structure definition builded with the given block.

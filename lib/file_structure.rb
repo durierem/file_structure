@@ -61,6 +61,7 @@ class FileStructure
   # Remove all files from the mountpoint.
   #
   # @return void
+  # @raise [AssertionError] if the file structure is not mounted
   # @see mount
   def unmount
     assert(mounted?, 'file structure is not mounted')
@@ -76,7 +77,7 @@ class FileStructure
     !!@mountpoint
   end
 
-  # Get the aboslute path for a file in the mounted file structure.
+  # Get the absolute path for a file in the mounted file structure.
   #
   # @example
   #   path_for('foo/bar/file')

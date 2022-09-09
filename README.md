@@ -1,5 +1,6 @@
 # file_structure
 
+[![MIT License](https://img.shields.io/github/license/durierem/file_structure)](https://github.com/durierem/file_structure/blob/main/LICENSE.txt)
 [![Gem Version](https://badge.fury.io/rb/file_structure.svg)](https://badge.fury.io/rb/file_structure)
 [![Test](https://github.com/durierem/file_structure/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/test.yml)
 [![Lint](https://github.com/durierem/file_structure/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/durierem/file_structure/actions/workflows/lint.yml)
